@@ -30,6 +30,8 @@ const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12
 export async function saveResume(resumeData: ResumeData, existingId?: string): Promise<SavedResume> {
   const supabase = createClient();
   const title = getTitle(resumeData);
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("Non authentifié");
 
   if (existingId && UUID_REGEX.test(existingId)) {
     const { data, error } = await supabase
@@ -44,7 +46,7 @@ export async function saveResume(resumeData: ResumeData, existingId?: string): P
 
   const { data, error } = await supabase
     .from("resumes")
-    .insert({ title, data: resumeData })
+    .insert({ title, data: resumeData, user_id: user.id })
     .select()
     .single();
   if (error) throw error;
