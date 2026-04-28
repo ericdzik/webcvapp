@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   entry: { marginBottom: 10, paddingBottom: 10, borderBottom: `1px solid ${BORDER}` },
   entryLast: { marginBottom: 0, paddingBottom: 0 },
   tag: { backgroundColor: "#1f2937", borderWidth: 1, borderColor: "#374151", paddingHorizontal: 6, paddingVertical: 2, borderRadius: 3, fontSize: 8, color: "#9ca3af", marginBottom: 4, marginRight: 4 },
+  tagGreen: { backgroundColor: "#0d2818", borderWidth: 1, borderColor: "#166534", paddingHorizontal: 6, paddingVertical: 2, borderRadius: 3, fontSize: 8, color: GREEN, marginBottom: 4, marginRight: 4 },
   photo: { width: 60, height: 60, borderRadius: 30, objectFit: "cover", borderWidth: 2, borderColor: GREEN },
   tagsRow: { flexDirection: "row", flexWrap: "wrap" },
   progressRow: { marginBottom: 6 },
