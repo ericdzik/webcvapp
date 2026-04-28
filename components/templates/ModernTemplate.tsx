@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
   sidebar: { width: "35%", backgroundColor: "#1e3a5f", color: "#fff", padding: 24 },
   main: { width: "65%", padding: 24 },
   photo: { width: 64, height: 64, borderRadius: 32, objectFit: "cover", marginBottom: 10 },
+  name: { fontSize: 18, fontFamily: "Helvetica-Bold", color: "#fff", marginBottom: 2 },
   title: { fontSize: 10, color: "#93c5fd", marginBottom: 16 },
   sideSection: { marginBottom: 14 },
   sideSectionTitle: { fontSize: 9, fontFamily: "Helvetica-Bold", color: "#93c5fd", textTransform: "uppercase", letterSpacing: 1, borderBottom: "1px solid #3b5998", paddingBottom: 3, marginBottom: 6 },
