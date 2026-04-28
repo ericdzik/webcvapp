@@ -156,7 +156,7 @@ export default function CreatePageInner() {
             />
           </div>
 
-          <PersonalInfoForm register={register} />
+          <PersonalInfoForm register={register} setValue={setValue} watch={watch} />
 
           <div className="space-y-2">
             <h2 className="font-bold text-gray-700 text-sm uppercase tracking-wide">Résumé / Profil</h2>

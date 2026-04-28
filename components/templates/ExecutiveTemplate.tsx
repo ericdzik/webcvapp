@@ -1,10 +1,12 @@
 "use client";
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet, Image } from "@react-pdf/renderer";
 import { ResumeData } from "@/types/resume";
 
 const styles = StyleSheet.create({
   page: { fontFamily: "Helvetica", fontSize: 10, color: "#1a1a2e" },
-  header: { backgroundColor: "#1a1a2e", padding: "28 40 24 40", color: "#fff" },
+  header: { backgroundColor: "#1a1a2e", padding: "28 40 24 40", color: "#fff", flexDirection: "row", gap: 20, alignItems: "flex-start" },
+  headerText: { flex: 1 },
+  photo: { width: 72, height: 72, borderRadius: 36, objectFit: "cover", borderWidth: 2, borderColor: "#c9a84c" },
   name: { fontSize: 28, fontFamily: "Helvetica-Bold", letterSpacing: 2, color: "#fff", marginBottom: 4 },
   title: { fontSize: 12, color: "#a8b4c8", letterSpacing: 1, marginBottom: 12 },
   contactRow: { flexDirection: "row", gap: 16, flexWrap: "wrap" },
@@ -35,18 +37,20 @@ export default function ExecutiveTemplate({ data }: { data: ResumeData }) {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.name}>{p.firstName} {p.lastName}</Text>
-          <Text style={styles.title}>{p.title}</Text>
-          <View style={styles.contactRow}>
-            {p.email && <Text style={styles.contactItem}>{p.email}</Text>}
-            {p.phone && <Text style={styles.contactItem}>{p.phone}</Text>}
-            {p.city && <Text style={styles.contactItem}>{p.city}{p.country ? `, ${p.country}` : ""}</Text>}
-            {p.linkedin && <Text style={styles.contactItem}>{p.linkedin}</Text>}
-            {p.website && <Text style={styles.contactItem}>{p.website}</Text>}
+          {p.photo ? <Image src={p.photo} style={styles.photo} /> : null}
+          <View style={styles.headerText}>
+            <Text style={styles.name}>{p.firstName} {p.lastName}</Text>
+            <Text style={styles.title}>{p.title}</Text>
+            <View style={styles.contactRow}>
+              {p.email && <Text style={styles.contactItem}>{p.email}</Text>}
+              {p.phone && <Text style={styles.contactItem}>{p.phone}</Text>}
+              {p.city && <Text style={styles.contactItem}>{p.city}{p.country ? `, ${p.country}` : ""}</Text>}
+              {p.linkedin && <Text style={styles.contactItem}>{p.linkedin}</Text>}
+              {p.website && <Text style={styles.contactItem}>{p.website}</Text>}
+            </View>
+            <View style={styles.dividerGold} />
           </View>
-          <View style={styles.dividerGold} />
         </View>
 
         <View style={styles.body}>

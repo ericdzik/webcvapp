@@ -5,14 +5,39 @@ import { ResumeData } from "@/types/resume";
 import { generateId } from "@/lib/utils";
 
 const SKILL_SUGGESTIONS: Record<string, string[]> = {
-  "Langages": ["JavaScript", "TypeScript", "Python", "Java", "C#", "C++", "PHP", "Go", "Rust", "Swift", "Kotlin", "Ruby"],
-  "Frontend": ["React", "Next.js", "Vue.js", "Angular", "Tailwind CSS", "HTML/CSS", "Sass", "Redux", "GraphQL"],
-  "Backend": ["Node.js", "Express", "NestJS", "Django", "FastAPI", "Spring Boot", "Laravel", "Ruby on Rails"],
-  "Base de données": ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Supabase", "Firebase", "Prisma", "SQLite"],
-  "DevOps / Cloud": ["Docker", "Kubernetes", "AWS", "GCP", "Azure", "CI/CD", "GitHub Actions", "Terraform", "Linux"],
-  "Outils dev": ["Git", "GitHub", "GitLab", "VS Code", "Figma", "Postman", "Jest", "Cypress", "Webpack", "Vite"],
-  "Gestion de projet": ["Agile / Scrum", "Kanban", "Jira", "Notion", "Confluence", "Trello", "Asana", "Monday.com"],
-  "Méthodes": ["Gestion de backlog", "Sprint planning", "Code review", "TDD", "DDD", "Architecture microservices", "API REST"],
+  // Tech
+  "Langages": ["JavaScript", "TypeScript", "Python", "Java", "C#", "C++", "PHP", "Go", "Swift", "Kotlin", "Ruby"],
+  "Frontend": ["React", "Next.js", "Vue.js", "Angular", "Tailwind CSS", "HTML/CSS", "Sass", "Redux"],
+  "Backend": ["Node.js", "Express", "NestJS", "Django", "FastAPI", "Spring Boot", "Laravel"],
+  "Base de données": ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Firebase", "Supabase"],
+  "DevOps / Cloud": ["Docker", "Kubernetes", "AWS", "GCP", "Azure", "CI/CD", "Linux", "Git"],
+  "Gestion de projet": ["Agile / Scrum", "Kanban", "Jira", "Notion", "Confluence", "Trello", "Asana"],
+
+  // Business & Management
+  "Management": ["Gestion d'équipe", "Leadership", "Recrutement", "Conduite du changement", "Coaching", "Reporting", "KPI"],
+  "Finance & Comptabilité": ["Comptabilité générale", "Contrôle de gestion", "Analyse financière", "Excel avancé", "SAP", "Sage", "Fiscalité", "Audit"],
+  "Marketing & Communication": ["Marketing digital", "SEO / SEA", "Réseaux sociaux", "Content marketing", "Email marketing", "Google Analytics", "Adobe Suite", "Copywriting"],
+  "Commercial & Vente": ["Prospection", "Négociation", "CRM", "Salesforce", "HubSpot", "Gestion de portefeuille client", "B2B", "B2C"],
+  "Ressources Humaines": ["Recrutement", "Formation", "Paie", "GPEC", "Droit du travail", "SIRH", "Onboarding", "Gestion des talents"],
+
+  // Santé & Social
+  "Santé": ["Soins infirmiers", "Pharmacologie", "Urgences", "Bloc opératoire", "Pédiatrie", "Gériatrie", "Hygiène hospitalière"],
+  "Social & Éducatif": ["Accompagnement social", "Éducation spécialisée", "Médiation", "Travail en équipe pluridisciplinaire", "Rédaction de rapports"],
+
+  // Design & Créatif
+  "Design": ["Figma", "Adobe Photoshop", "Illustrator", "InDesign", "After Effects", "UI/UX", "Prototypage", "Identité visuelle"],
+  "Audiovisuel": ["Montage vidéo", "Premiere Pro", "Final Cut", "DaVinci Resolve", "Photographie", "Motion design"],
+
+  // Juridique & Administratif
+  "Juridique": ["Droit des contrats", "Droit du travail", "Droit des sociétés", "Veille juridique", "Rédaction d'actes", "Contentieux"],
+  "Administratif": ["Gestion administrative", "Accueil", "Secrétariat", "Rédaction professionnelle", "Classement", "Pack Office"],
+
+  // Logistique & Industrie
+  "Logistique": ["Gestion des stocks", "Supply chain", "Transport", "ERP", "Lean management", "Planification"],
+  "Industrie & Technique": ["Maintenance industrielle", "Électricité", "Mécanique", "Automatisme", "Qualité / ISO", "Sécurité industrielle"],
+
+  // Soft skills
+  "Soft skills": ["Communication", "Travail en équipe", "Autonomie", "Adaptabilité", "Rigueur", "Créativité", "Gestion du stress", "Sens des priorités", "Force de proposition"],
 };
 
 interface Props {
@@ -23,19 +48,38 @@ interface Props {
 export default function SkillsForm({ register, control }: Props) {
   const { fields, append, remove } = useFieldArray({ control, name: "skills" });
   const [openCategory, setOpenCategory] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
 
   const addSkill = (name: string) => {
     if (fields.some((f) => f.name === name)) return;
     append({ id: generateId(), name, level: "intermédiaire" });
   };
 
+  // Filtrage par recherche
+  const filteredCategories = search.trim()
+    ? Object.entries(SKILL_SUGGESTIONS).reduce<Record<string, string[]>>((acc, [cat, skills]) => {
+        const filtered = skills.filter((s) => s.toLowerCase().includes(search.toLowerCase()));
+        if (filtered.length) acc[cat] = filtered;
+        return acc;
+      }, {})
+    : SKILL_SUGGESTIONS;
+
   return (
     <div className="space-y-4">
       <h2 className="font-bold text-gray-700 text-sm uppercase tracking-wide">Compétences</h2>
 
+      {/* Recherche */}
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Rechercher une compétence..."
+        className="input"
+      />
+
       {/* Suggestions par catégorie */}
-      <div className="space-y-2">
-        {Object.entries(SKILL_SUGGESTIONS).map(([category, skills]) => (
+      <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
+        {Object.entries(filteredCategories).map(([category, skills]) => (
           <div key={category} className="border border-gray-200 rounded-lg overflow-hidden">
             <button
               type="button"
@@ -43,9 +87,9 @@ export default function SkillsForm({ register, control }: Props) {
               className="w-full flex items-center justify-between px-3 py-2 bg-gray-50 hover:bg-gray-100 text-sm font-medium text-gray-700 transition"
             >
               <span>{category}</span>
-              <span className="text-gray-400">{openCategory === category ? "▲" : "▼"}</span>
+              <span className="text-gray-400 text-xs">{openCategory === category ? "▲" : "▼"}</span>
             </button>
-            {openCategory === category && (
+            {(openCategory === category || search.trim()) && (
               <div className="p-3 flex flex-wrap gap-2">
                 {skills.map((skill) => {
                   const added = fields.some((f) => f.name === skill);
@@ -73,7 +117,7 @@ export default function SkillsForm({ register, control }: Props) {
 
       {/* Ajout manuel */}
       <div className="flex items-center justify-between">
-        <p className="text-xs text-gray-400">Ou ajoute une compétence personnalisée</p>
+        <p className="text-xs text-gray-400">Compétence non listée ?</p>
         <button
           type="button"
           onClick={() => append({ id: generateId(), name: "", level: "intermédiaire" })}

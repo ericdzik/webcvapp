@@ -1,10 +1,12 @@
 "use client";
-import { Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet, Image } from "@react-pdf/renderer";
 import { ResumeData } from "@/types/resume";
 
 const styles = StyleSheet.create({
   page: { padding: 40, fontFamily: "Helvetica", fontSize: 10, color: "#222" },
-  header: { marginBottom: 16, borderBottom: "2px solid #222", paddingBottom: 10 },
+  header: { marginBottom: 16, borderBottom: "2px solid #222", paddingBottom: 10, flexDirection: "row", gap: 16, alignItems: "flex-start" },
+  headerText: { flex: 1 },
+  photo: { width: 72, height: 72, borderRadius: 36, objectFit: "cover" },
   name: { fontSize: 22, fontFamily: "Helvetica-Bold", marginBottom: 2 },
   title: { fontSize: 12, color: "#555", marginBottom: 4 },
   contact: { flexDirection: "row", gap: 12, fontSize: 9, color: "#555", flexWrap: "wrap" },
@@ -26,14 +28,19 @@ export default function ClassicTemplate({ data }: { data: ResumeData }) {
       <Page size="A4" style={styles.page}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.name}>{p.firstName} {p.lastName}</Text>
-          <Text style={styles.title}>{p.title}</Text>
-          <View style={styles.contact}>
-            {p.email && <Text>{p.email}</Text>}
-            {p.phone && <Text>{p.phone}</Text>}
-            {p.city && <Text>{p.city}{p.country ? `, ${p.country}` : ""}</Text>}
-            {p.linkedin && <Text>{p.linkedin}</Text>}
-            {p.website && <Text>{p.website}</Text>}
+          {p.photo ? (
+            <Image src={p.photo} style={styles.photo} />
+          ) : null}
+          <View style={styles.headerText}>
+            <Text style={styles.name}>{p.firstName} {p.lastName}</Text>
+            <Text style={styles.title}>{p.title}</Text>
+            <View style={styles.contact}>
+              {p.email && <Text>{p.email}</Text>}
+              {p.phone && <Text>{p.phone}</Text>}
+              {p.city && <Text>{p.city}{p.country ? `, ${p.country}` : ""}</Text>}
+              {p.linkedin && <Text>{p.linkedin}</Text>}
+              {p.website && <Text>{p.website}</Text>}
+            </View>
           </View>
         </View>
 

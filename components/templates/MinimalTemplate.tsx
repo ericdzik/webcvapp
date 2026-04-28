@@ -1,9 +1,11 @@
 "use client";
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet, Image } from "@react-pdf/renderer";
 import { ResumeData } from "@/types/resume";
 
 const styles = StyleSheet.create({
-  page: { padding: 48, fontFamily: "Helvetica", fontSize: 10, color: "#333" },
+  headerRow: { flexDirection: "row", alignItems: "flex-start", gap: 16, marginBottom: 20 },
+  headerText: { flex: 1 },
+  photo: { width: 68, height: 68, borderRadius: 34, objectFit: "cover" },
   name: { fontSize: 26, fontFamily: "Helvetica-Bold", letterSpacing: 2, marginBottom: 2 },
   title: { fontSize: 11, color: "#888", letterSpacing: 1, marginBottom: 6 },
   contact: { flexDirection: "row", gap: 16, fontSize: 9, color: "#aaa", marginBottom: 20 },
@@ -24,13 +26,18 @@ export default function MinimalTemplate({ data }: { data: ResumeData }) {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <Text style={styles.name}>{p.firstName} {p.lastName}</Text>
-        <Text style={styles.title}>{p.title}</Text>
-        <View style={styles.contact}>
-          {p.email && <Text>{p.email}</Text>}
-          {p.phone && <Text>{p.phone}</Text>}
-          {p.city && <Text>{p.city}{p.country ? `, ${p.country}` : ""}</Text>}
-          {p.linkedin && <Text>{p.linkedin}</Text>}
+        <View style={styles.headerRow}>
+          {p.photo ? <Image src={p.photo} style={styles.photo} /> : null}
+          <View style={styles.headerText}>
+            <Text style={styles.name}>{p.firstName} {p.lastName}</Text>
+            <Text style={styles.title}>{p.title}</Text>
+            <View style={styles.contact}>
+              {p.email && <Text>{p.email}</Text>}
+              {p.phone && <Text>{p.phone}</Text>}
+              {p.city && <Text>{p.city}{p.country ? `, ${p.country}` : ""}</Text>}
+              {p.linkedin && <Text>{p.linkedin}</Text>}
+            </View>
+          </View>
         </View>
         <View style={styles.divider} />
 

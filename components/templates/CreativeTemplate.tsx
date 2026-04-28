@@ -1,5 +1,5 @@
 "use client";
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet, Image } from "@react-pdf/renderer";
 import { ResumeData } from "@/types/resume";
 
 const ACCENT = "#e63946";
@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
   sidebar: { width: "32%", backgroundColor: LIGHT, padding: "32 16 24 16", borderRight: `3px solid ${ACCENT}` },
   main: { width: "68%", padding: "32 24 24 24" },
   // Sidebar
-  avatarBox: { width: 64, height: 64, borderRadius: 32, backgroundColor: ACCENT, alignItems: "center", justifyContent: "center", marginBottom: 12 },
-  avatarText: { color: "#fff", fontSize: 22, fontFamily: "Helvetica-Bold" },
+  avatarBox: { width: 64, height: 64, borderRadius: 32, backgroundColor: ACCENT, alignItems: "center", justifyContent: "center", marginBottom: 12, overflow: "hidden" },
+  avatarImg: { width: 64, height: 64, borderRadius: 32, objectFit: "cover" },
   sideTitle: { fontSize: 8, fontFamily: "Helvetica-Bold", color: ACCENT, textTransform: "uppercase", letterSpacing: 2, marginBottom: 6, marginTop: 14 },
   sideDivider: { height: 1, backgroundColor: ACCENT, marginBottom: 8, opacity: 0.3 },
   sideText: { fontSize: 9, color: "#555", marginBottom: 3, lineHeight: 1.4 },
@@ -48,7 +48,10 @@ export default function CreativeTemplate({ data }: { data: ResumeData }) {
         {/* Sidebar */}
         <View style={styles.sidebar}>
           <View style={styles.avatarBox}>
-            <Text style={styles.avatarText}>{initials}</Text>
+            {p.photo
+              ? <Image src={p.photo} style={styles.avatarImg} />
+              : <Text style={{ color: "#fff", fontSize: 22, fontFamily: "Helvetica-Bold" }}>{initials}</Text>
+            }
           </View>
 
           <Text style={styles.name}>{p.firstName}</Text>
