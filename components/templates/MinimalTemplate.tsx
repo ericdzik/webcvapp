@@ -3,6 +3,7 @@ import { Document, Page, Text, View, StyleSheet, Image } from "@react-pdf/render
 import { ResumeData } from "@/types/resume";
 
 const styles = StyleSheet.create({
+  page: { padding: 48, fontFamily: "Helvetica", fontSize: 10, color: "#333" },
   headerRow: { flexDirection: "row", alignItems: "flex-start", gap: 16, marginBottom: 20 },
   headerText: { flex: 1 },
   photo: { width: 68, height: 68, borderRadius: 34, objectFit: "cover" },
