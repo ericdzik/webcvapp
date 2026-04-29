@@ -15,7 +15,7 @@ const features = [
   {
     icon: Download,
     title: "Export PDF instantané",
-    desc: "Télécharge ton CV en PDF haute qualité en un clic, prêt à envoyer.",
+    desc: "Télécharge ton CV en PDF haute qualité en un clic, prêt a envoyer.",
   },
   {
     icon: Save,
