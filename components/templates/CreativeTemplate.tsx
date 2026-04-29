@@ -1,62 +1,58 @@
 "use client";
 import { Document, Page, Text, View, StyleSheet, Image } from "@react-pdf/renderer";
 import { ResumeData } from "@/types/resume";
+import { getFontScale, fs } from "@/lib/pdfUtils";
 
 const ACCENT = "#e63946";
 const LIGHT = "#fff5f5";
 
-const styles = StyleSheet.create({
-  page: { flexDirection: "row", fontFamily: "Helvetica", fontSize: 10, color: "#2d2d2d" },
-  sidebar: { width: "32%", backgroundColor: LIGHT, padding: "32 16 24 16", borderRight: `3px solid ${ACCENT}` },
-  main: { width: "68%", padding: "32 24 24 24" },
-  // Sidebar
-  avatarBox: { width: 64, height: 64, borderRadius: 32, backgroundColor: ACCENT, alignItems: "center", justifyContent: "center", marginBottom: 12, overflow: "hidden" },
-  avatarImg: { width: 64, height: 64, borderRadius: 32, objectFit: "cover" },
-  sideTitle: { fontSize: 8, fontFamily: "Helvetica-Bold", color: ACCENT, textTransform: "uppercase", letterSpacing: 2, marginBottom: 6, marginTop: 14 },
-  sideDivider: { height: 1, backgroundColor: ACCENT, marginBottom: 8, opacity: 0.3 },
-  sideText: { fontSize: 9, color: "#555", marginBottom: 3, lineHeight: 1.4 },
-  skillBar: { marginBottom: 5 },
-  skillName: { fontSize: 9, color: "#333", marginBottom: 2 },
-  barBg: { height: 3, backgroundColor: "#f0c0c3", borderRadius: 2 },
-  barFill: { height: 3, backgroundColor: ACCENT, borderRadius: 2 },
-  langRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 3 },
-  langLevel: { fontSize: 8, color: ACCENT, fontFamily: "Helvetica-Bold" },
-  // Main
-  name: { fontSize: 24, fontFamily: "Helvetica-Bold", color: "#1a1a1a", marginBottom: 2 },
-  titleText: { fontSize: 11, color: ACCENT, fontFamily: "Helvetica-Bold", letterSpacing: 1, marginBottom: 16 },
-  accentLine: { height: 3, width: 40, backgroundColor: ACCENT, marginBottom: 16 },
-  sectionTitle: { fontSize: 10, fontFamily: "Helvetica-Bold", color: ACCENT, textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 8 },
-  entryRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 1 },
-  bold: { fontFamily: "Helvetica-Bold", fontSize: 10 },
-  sub: { fontSize: 9, color: "#888", marginBottom: 2 },
-  description: { fontSize: 9, color: "#555", lineHeight: 1.5, marginTop: 2 },
-  section: { marginBottom: 16 },
-  dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: ACCENT, marginRight: 6, marginTop: 2 },
-  dotRow: { flexDirection: "row", alignItems: "flex-start", marginBottom: 8 },
-  dotContent: { flex: 1 },
-});
-
-const levelToPercent = { débutant: "33%", intermédiaire: "66%", expert: "100%" };
-
 export default function CreativeTemplate({ data }: { data: ResumeData }) {
   const { personalInfo: p, summary, experiences, education, skills, languages, interests } = data;
+  const sc = getFontScale(data);
   const initials = `${p.firstName?.[0] ?? ""}${p.lastName?.[0] ?? ""}`.toUpperCase();
+
+  const styles = StyleSheet.create({
+    page: { flexDirection: "row", fontFamily: "Helvetica", fontSize: fs(10, sc), color: "#2d2d2d", minHeight: "100%" },
+    sidebar: { width: "32%", backgroundColor: LIGHT, padding: fs(24, sc), borderRight: `3px solid ${ACCENT}`, display: "flex", flexDirection: "column" },
+    main: { width: "68%", padding: fs(24, sc), display: "flex", flexDirection: "column" },
+    avatarBox: { width: fs(60, sc), height: fs(60, sc), borderRadius: fs(30, sc), backgroundColor: ACCENT, alignItems: "center", justifyContent: "center", marginBottom: fs(10, sc), overflow: "hidden" },
+    avatarImg: { width: fs(60, sc), height: fs(60, sc), borderRadius: fs(30, sc), objectFit: "cover" },
+    sideTitle: { fontSize: fs(7.5, sc), fontFamily: "Helvetica-Bold", color: ACCENT, textTransform: "uppercase", letterSpacing: 2, marginBottom: fs(5, sc), marginTop: fs(12, sc) },
+    sideDivider: { height: 1, backgroundColor: ACCENT, marginBottom: fs(6, sc), opacity: 0.3 },
+    sideText: { fontSize: fs(8.5, sc), color: "#555", marginBottom: 3, lineHeight: 1.4 },
+    skillBar: { marginBottom: fs(4, sc) },
+    skillName: { fontSize: fs(8.5, sc), color: "#333", marginBottom: 2 },
+    barBg: { height: 3, backgroundColor: "#f0c0c3", borderRadius: 2 },
+    barFill: { height: 3, backgroundColor: ACCENT, borderRadius: 2 },
+    langRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 3 },
+    langLevel: { fontSize: fs(7.5, sc), color: ACCENT, fontFamily: "Helvetica-Bold" },
+    accentLine: { height: 3, width: 36, backgroundColor: ACCENT, marginBottom: fs(14, sc) },
+    sectionTitle: { fontSize: fs(9.5, sc), fontFamily: "Helvetica-Bold", color: ACCENT, textTransform: "uppercase", letterSpacing: 1.5, marginBottom: fs(7, sc) },
+    entryRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 1 },
+    bold: { fontFamily: "Helvetica-Bold", fontSize: fs(10, sc) },
+    sub: { fontSize: fs(8.5, sc), color: "#888", marginBottom: 2 },
+    description: { fontSize: fs(9, sc), color: "#555", lineHeight: 1.5, marginTop: 2 },
+    section: { marginBottom: fs(13, sc) },
+    dot: { width: fs(5, sc), height: fs(5, sc), borderRadius: fs(2.5, sc), backgroundColor: ACCENT, marginRight: fs(5, sc), marginTop: 2 },
+    dotRow: { flexDirection: "row", alignItems: "flex-start", marginBottom: fs(7, sc) },
+    dotContent: { flex: 1 },
+  });
+
+  const levelToPercent = { débutant: "33%", intermédiaire: "66%", expert: "100%" };
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {/* Sidebar */}
         <View style={styles.sidebar}>
           <View style={styles.avatarBox}>
             {p.photo
               ? <Image src={p.photo} style={styles.avatarImg} />
-              : <Text style={{ color: "#fff", fontSize: 22, fontFamily: "Helvetica-Bold" }}>{initials}</Text>
+              : <Text style={{ color: "#fff", fontSize: fs(20, sc), fontFamily: "Helvetica-Bold" }}>{initials}</Text>
             }
           </View>
-
-          <Text style={styles.name}>{p.firstName}</Text>
-          <Text style={{ ...styles.name, fontSize: 18 }}>{p.lastName}</Text>
-          <Text style={{ fontSize: 9, color: ACCENT, fontFamily: "Helvetica-Bold", marginTop: 2, marginBottom: 12 }}>{p.title}</Text>
+          <Text style={{ fontSize: fs(15, sc), fontFamily: "Helvetica-Bold", color: "#1a1a1a" }}>{p.firstName}</Text>
+          <Text style={{ fontSize: fs(15, sc), fontFamily: "Helvetica-Bold", color: "#1a1a1a" }}>{p.lastName}</Text>
+          <Text style={{ fontSize: fs(8.5, sc), color: ACCENT, fontFamily: "Helvetica-Bold", marginTop: 2, marginBottom: fs(10, sc) }}>{p.title}</Text>
 
           <Text style={styles.sideTitle}>Contact</Text>
           <View style={styles.sideDivider} />
@@ -103,17 +99,14 @@ export default function CreativeTemplate({ data }: { data: ResumeData }) {
           )}
         </View>
 
-        {/* Main */}
         <View style={styles.main}>
           <View style={styles.accentLine} />
-
           {summary.text && (
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>À propos</Text>
               <Text style={styles.description}>{summary.text}</Text>
             </View>
           )}
-
           {experiences.length > 0 && (
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Expériences</Text>
@@ -132,7 +125,6 @@ export default function CreativeTemplate({ data }: { data: ResumeData }) {
               ))}
             </View>
           )}
-
           {education.length > 0 && (
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Formation</Text>

@@ -1,38 +1,40 @@
 "use client";
 import { Document, Page, Text, View, StyleSheet, Image } from "@react-pdf/renderer";
 import { ResumeData } from "@/types/resume";
-
-const styles = StyleSheet.create({
-  page: { fontFamily: "Helvetica", fontSize: 10, color: "#1a1a2e" },
-  header: { backgroundColor: "#1a1a2e", padding: "28 40 24 40", color: "#fff", flexDirection: "row", gap: 20, alignItems: "flex-start" },
-  headerText: { flex: 1 },
-  photo: { width: 72, height: 72, borderRadius: 36, objectFit: "cover", borderWidth: 2, borderColor: "#c9a84c" },
-  name: { fontSize: 28, fontFamily: "Helvetica-Bold", letterSpacing: 2, color: "#fff", marginBottom: 4 },
-  title: { fontSize: 12, color: "#a8b4c8", letterSpacing: 1, marginBottom: 12 },
-  contactRow: { flexDirection: "row", gap: 16, flexWrap: "wrap" },
-  contactItem: { fontSize: 9, color: "#c8d4e8" },
-  dividerGold: { height: 2, backgroundColor: "#c9a84c", width: 60, marginTop: 12 },
-  body: { padding: "20 40" },
-  section: { marginBottom: 16 },
-  sectionHeader: { flexDirection: "row", alignItems: "center", marginBottom: 8 },
-  sectionTitle: { fontSize: 10, fontFamily: "Helvetica-Bold", color: "#1a1a2e", textTransform: "uppercase", letterSpacing: 2 },
-  sectionLine: { flex: 1, height: 1, backgroundColor: "#c9a84c", marginLeft: 8 },
-  entryRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 1 },
-  bold: { fontFamily: "Helvetica-Bold", fontSize: 10 },
-  company: { fontSize: 9, color: "#c9a84c", fontFamily: "Helvetica-Bold", marginBottom: 2 },
-  date: { fontSize: 9, color: "#888", fontFamily: "Helvetica-Oblique" },
-  description: { fontSize: 9, color: "#444", lineHeight: 1.5, marginTop: 2 },
-  twoCol: { flexDirection: "row", gap: 24 },
-  col: { flex: 1 },
-  skillTag: { backgroundColor: "#f0ece0", borderLeft: "3px solid #c9a84c", paddingHorizontal: 6, paddingVertical: 3, marginBottom: 4, fontSize: 9 },
-  skillRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
-  skillLevel: { fontSize: 8, color: "#c9a84c", fontFamily: "Helvetica-Bold" },
-  langRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 4, fontSize: 9 },
-  langLevel: { color: "#c9a84c", fontFamily: "Helvetica-Bold", fontSize: 9 },
-});
+import { getFontScale, fs } from "@/lib/pdfUtils";
 
 export default function ExecutiveTemplate({ data }: { data: ResumeData }) {
   const { personalInfo: p, summary, experiences, education, skills, languages, interests } = data;
+  const sc = getFontScale(data);
+
+  const styles = StyleSheet.create({
+    page: { fontFamily: "Helvetica", fontSize: fs(10, sc), color: "#1a1a2e", display: "flex", flexDirection: "column", minHeight: "100%" },
+    header: { backgroundColor: "#1a1a2e", padding: `${fs(24, sc)} ${fs(36, sc)}`, color: "#fff", flexDirection: "row", gap: fs(18, sc), alignItems: "flex-start" },
+    headerText: { flex: 1 },
+    photo: { width: fs(68, sc), height: fs(68, sc), borderRadius: fs(34, sc), objectFit: "cover", borderWidth: 2, borderColor: "#c9a84c" },
+    name: { fontSize: fs(24, sc), fontFamily: "Helvetica-Bold", letterSpacing: 2, color: "#fff", marginBottom: 3 },
+    title: { fontSize: fs(11, sc), color: "#a8b4c8", letterSpacing: 1, marginBottom: fs(10, sc) },
+    contactRow: { flexDirection: "row", gap: fs(12, sc), flexWrap: "wrap" },
+    contactItem: { fontSize: fs(8.5, sc), color: "#c8d4e8" },
+    dividerGold: { height: 2, backgroundColor: "#c9a84c", width: 50, marginTop: fs(10, sc) },
+    body: { padding: `${fs(18, sc)} ${fs(36, sc)}`, flex: 1 },
+    section: { marginBottom: fs(13, sc) },
+    sectionHeader: { flexDirection: "row", alignItems: "center", marginBottom: fs(6, sc) },
+    sectionTitle: { fontSize: fs(9.5, sc), fontFamily: "Helvetica-Bold", color: "#1a1a2e", textTransform: "uppercase", letterSpacing: 2 },
+    sectionLine: { flex: 1, height: 1, backgroundColor: "#c9a84c", marginLeft: 8 },
+    entryRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 1 },
+    bold: { fontFamily: "Helvetica-Bold", fontSize: fs(10, sc) },
+    company: { fontSize: fs(8.5, sc), color: "#c9a84c", fontFamily: "Helvetica-Bold", marginBottom: 2 },
+    date: { fontSize: fs(8.5, sc), color: "#888", fontFamily: "Helvetica-Oblique" },
+    description: { fontSize: fs(9, sc), color: "#444", lineHeight: 1.4, marginTop: 2 },
+    twoCol: { flexDirection: "row", gap: fs(20, sc) },
+    col: { flex: 1 },
+    skillTag: { backgroundColor: "#f0ece0", borderLeft: "3px solid #c9a84c", paddingHorizontal: fs(5, sc), paddingVertical: 2, marginBottom: fs(3, sc), fontSize: fs(8.5, sc) },
+    skillRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
+    skillLevel: { fontSize: fs(7.5, sc), color: "#c9a84c", fontFamily: "Helvetica-Bold" },
+    langRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: fs(3, sc), fontSize: fs(8.5, sc) },
+    langLevel: { color: "#c9a84c", fontFamily: "Helvetica-Bold", fontSize: fs(8.5, sc) },
+  });
 
   return (
     <Document>
@@ -54,26 +56,18 @@ export default function ExecutiveTemplate({ data }: { data: ResumeData }) {
         </View>
 
         <View style={styles.body}>
-          {/* Summary */}
           {summary.text && (
             <View style={styles.section}>
-              <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>Profil</Text>
-                <View style={styles.sectionLine} />
-              </View>
+              <View style={styles.sectionHeader}><Text style={styles.sectionTitle}>Profil</Text><View style={styles.sectionLine} /></View>
               <Text style={styles.description}>{summary.text}</Text>
             </View>
           )}
 
-          {/* Experience */}
           {experiences.length > 0 && (
             <View style={styles.section}>
-              <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>Expériences</Text>
-                <View style={styles.sectionLine} />
-              </View>
+              <View style={styles.sectionHeader}><Text style={styles.sectionTitle}>Expériences</Text><View style={styles.sectionLine} /></View>
               {experiences.map((exp) => (
-                <View key={exp.id} style={{ marginBottom: 10 }}>
+                <View key={exp.id} style={{ marginBottom: fs(8, sc) }}>
                   <View style={styles.entryRow}>
                     <Text style={styles.bold}>{exp.position}</Text>
                     <Text style={styles.date}>{exp.startDate} – {exp.current ? "Présent" : exp.endDate}</Text>
@@ -85,17 +79,13 @@ export default function ExecutiveTemplate({ data }: { data: ResumeData }) {
             </View>
           )}
 
-          {/* Two columns: Education + Skills / Languages */}
           <View style={styles.twoCol}>
             <View style={styles.col}>
               {education.length > 0 && (
                 <View style={styles.section}>
-                  <View style={styles.sectionHeader}>
-                    <Text style={styles.sectionTitle}>Formation</Text>
-                    <View style={styles.sectionLine} />
-                  </View>
+                  <View style={styles.sectionHeader}><Text style={styles.sectionTitle}>Formation</Text><View style={styles.sectionLine} /></View>
                   {education.map((edu) => (
-                    <View key={edu.id} style={{ marginBottom: 8 }}>
+                    <View key={edu.id} style={{ marginBottom: fs(6, sc) }}>
                       <View style={styles.entryRow}>
                         <Text style={styles.bold}>{edu.degree}</Text>
                         <Text style={styles.date}>{edu.year}</Text>
@@ -105,47 +95,33 @@ export default function ExecutiveTemplate({ data }: { data: ResumeData }) {
                   ))}
                 </View>
               )}
-
               {languages.length > 0 && (
                 <View style={styles.section}>
-                  <View style={styles.sectionHeader}>
-                    <Text style={styles.sectionTitle}>Langues</Text>
-                    <View style={styles.sectionLine} />
-                  </View>
+                  <View style={styles.sectionHeader}><Text style={styles.sectionTitle}>Langues</Text><View style={styles.sectionLine} /></View>
                   {languages.map((l) => (
                     <View key={l.id} style={styles.langRow}>
-                      <Text>{l.name}</Text>
-                      <Text style={styles.langLevel}>{l.level}</Text>
+                      <Text>{l.name}</Text><Text style={styles.langLevel}>{l.level}</Text>
                     </View>
                   ))}
                 </View>
               )}
             </View>
-
             <View style={styles.col}>
               {skills.length > 0 && (
                 <View style={styles.section}>
-                  <View style={styles.sectionHeader}>
-                    <Text style={styles.sectionTitle}>Compétences</Text>
-                    <View style={styles.sectionLine} />
-                  </View>
+                  <View style={styles.sectionHeader}><Text style={styles.sectionTitle}>Compétences</Text><View style={styles.sectionLine} /></View>
                   {skills.map((s) => (
                     <View key={s.id} style={styles.skillTag}>
                       <View style={styles.skillRow}>
-                        <Text>{s.name}</Text>
-                        <Text style={styles.skillLevel}>{s.level}</Text>
+                        <Text>{s.name}</Text><Text style={styles.skillLevel}>{s.level}</Text>
                       </View>
                     </View>
                   ))}
                 </View>
               )}
-
               {interests.length > 0 && (
                 <View style={styles.section}>
-                  <View style={styles.sectionHeader}>
-                    <Text style={styles.sectionTitle}>Intérêts</Text>
-                    <View style={styles.sectionLine} />
-                  </View>
+                  <View style={styles.sectionHeader}><Text style={styles.sectionTitle}>Intérêts</Text><View style={styles.sectionLine} /></View>
                   <Text style={styles.description}>{interests.join(" · ")}</Text>
                 </View>
               )}
