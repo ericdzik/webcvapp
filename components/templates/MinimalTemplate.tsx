@@ -10,23 +10,23 @@ export default function MinimalTemplate({ data }: { data: ResumeData }) {
   const s = (b: number) => getSpacing(b, score);
 
   const styles = StyleSheet.create({
-    page: { padding: 48, fontFamily: "Helvetica", fontSize: f(10), color: "#333" },
-    headerRow: { flexDirection: "row", alignItems: "flex-start", gap: 16, marginBottom: s(20) },
+    page: { padding: 48, fontFamily: "Helvetica", fontSize: f(11), color: "#333" },
+    headerRow: { flexDirection: "row", alignItems: "flex-start", gap: 16, marginBottom: s(22) },
     headerText: { flex: 1 },
-    photo: { width: 68, height: 68, borderRadius: 34, objectFit: "cover" },
-    name: { fontSize: f(26), fontFamily: "Helvetica-Bold", letterSpacing: 2, marginBottom: 2 },
-    title: { fontSize: f(11), color: "#888", letterSpacing: 1, marginBottom: s(6) },
-    contact: { flexDirection: "row", gap: 16, fontSize: f(9), color: "#aaa" },
-    divider: { borderBottom: "1px solid #eee", marginBottom: s(16) },
-    section: { marginBottom: s(16) },
-    sectionTitle: { fontSize: f(9), fontFamily: "Helvetica-Bold", color: "#aaa", textTransform: "uppercase", letterSpacing: 2, marginBottom: s(8) },
+    photo: { width: 72, height: 72, borderRadius: 36, objectFit: "cover" },
+    name: { fontSize: f(28), fontFamily: "Helvetica-Bold", letterSpacing: 2, marginBottom: 3 },
+    title: { fontSize: f(12), color: "#888", letterSpacing: 1, marginBottom: s(7) },
+    contact: { flexDirection: "row", gap: 16, fontSize: f(10), color: "#aaa" },
+    divider: { borderBottom: "1px solid #eee", marginBottom: s(18) },
+    section: { marginBottom: s(22) },
+    sectionTitle: { fontSize: f(10), fontFamily: "Helvetica-Bold", color: "#aaa", textTransform: "uppercase", letterSpacing: 2, marginBottom: s(12) },
     row: { flexDirection: "row", justifyContent: "space-between", marginBottom: 1 },
-    bold: { fontFamily: "Helvetica-Bold", fontSize: f(10) },
-    gray: { color: "#999", fontSize: f(9) },
-    description: { marginTop: 3, color: "#555", lineHeight: 1.5, fontSize: f(9) },
-    entryWrap: { marginBottom: s(8) },
+    bold: { fontFamily: "Helvetica-Bold", fontSize: f(11) },
+    gray: { color: "#999", fontSize: f(10) },
+    description: { marginTop: 3, color: "#555", lineHeight: 1.5, fontSize: f(10) },
+    entryWrap: { marginBottom: s(10) },
     tags: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
-    tag: { borderWidth: 1, borderColor: "#ddd", paddingHorizontal: 6, paddingVertical: 2, borderRadius: 2, fontSize: f(9), color: "#555" },
+    tag: { borderWidth: 1, borderColor: "#ddd", paddingHorizontal: 7, paddingVertical: 3, borderRadius: 2, fontSize: f(10), color: "#555" },
   });
 
   return (

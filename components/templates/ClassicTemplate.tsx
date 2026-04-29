@@ -10,22 +10,22 @@ export default function ClassicTemplate({ data }: { data: ResumeData }) {
   const s = (b: number) => getSpacing(b, score);
 
   const styles = StyleSheet.create({
-    page: { padding: 40, fontFamily: "Helvetica", fontSize: f(10), color: "#222" },
-    header: { marginBottom: s(18), borderBottom: "2px solid #222", paddingBottom: s(12), flexDirection: "row", gap: s(14), alignItems: "flex-start" },
+    page: { padding: 40, fontFamily: "Helvetica", fontSize: f(11), color: "#222" },
+    header: { marginBottom: s(20), borderBottom: "2px solid #222", paddingBottom: s(14), flexDirection: "row", gap: s(16), alignItems: "flex-start" },
     headerText: { flex: 1 },
-    photo: { width: 72, height: 72, borderRadius: 36, objectFit: "cover" },
-    name: { fontSize: f(22), fontFamily: "Helvetica-Bold", marginBottom: 2 },
-    title: { fontSize: f(12), color: "#555", marginBottom: 4 },
-    contact: { flexDirection: "row", gap: 12, fontSize: f(9), color: "#555", flexWrap: "wrap" },
-    section: { marginTop: s(16) },
-    sectionTitle: { fontSize: f(10), fontFamily: "Helvetica-Bold", borderBottom: "1px solid #222", paddingBottom: 2, marginBottom: s(8), textTransform: "uppercase", letterSpacing: 1 },
+    photo: { width: 76, height: 76, borderRadius: 38, objectFit: "cover" },
+    name: { fontSize: f(24), fontFamily: "Helvetica-Bold", marginBottom: 3 },
+    title: { fontSize: f(13), color: "#555", marginBottom: 5 },
+    contact: { flexDirection: "row", gap: 12, fontSize: f(10), color: "#555", flexWrap: "wrap" },
+    section: { marginTop: s(24) },
+    sectionTitle: { fontSize: f(11), fontFamily: "Helvetica-Bold", borderBottom: "1px solid #222", paddingBottom: 3, marginBottom: s(12), textTransform: "uppercase", letterSpacing: 1 },
     row: { flexDirection: "row", justifyContent: "space-between", marginBottom: 2 },
-    bold: { fontFamily: "Helvetica-Bold", fontSize: f(10) },
-    gray: { color: "#666", fontSize: f(9) },
-    description: { marginTop: 2, color: "#444", lineHeight: 1.5, fontSize: f(9) },
-    entryWrap: { marginBottom: s(10) },
+    bold: { fontFamily: "Helvetica-Bold", fontSize: f(11) },
+    gray: { color: "#666", fontSize: f(10) },
+    description: { marginTop: 3, color: "#444", lineHeight: 1.5, fontSize: f(10) },
+    entryWrap: { marginBottom: s(14) },
     skillRow: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
-    skill: { backgroundColor: "#eee", paddingHorizontal: 6, paddingVertical: 2, borderRadius: 3, fontSize: f(9) },
+    skill: { backgroundColor: "#eee", paddingHorizontal: 7, paddingVertical: 3, borderRadius: 3, fontSize: f(10) },
   });
 
   return (

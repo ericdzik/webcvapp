@@ -1,9 +1,5 @@
 import { ResumeData } from "@/types/resume";
 
-/**
- * Calcule la densité du contenu.
- * Retourne un score entre 0 (vide) et ~40+ (très rempli).
- */
 export function getContentScore(data: ResumeData): number {
   let score = 0;
   score += data.experiences.length * 4;
@@ -19,23 +15,22 @@ export function getContentScore(data: ResumeData): number {
 }
 
 /**
- * Taille de police de base — réduit seulement si vraiment beaucoup de contenu.
- * Peu de contenu = police normale (10), beaucoup = légèrement réduit.
+ * Taille de police — grande par défaut, réduit seulement si vraiment beaucoup.
  */
 export function getFontSize(base: number, score: number): number {
-  if (score >= 30) return Math.round(base * 0.85 * 10) / 10;
-  if (score >= 22) return Math.round(base * 0.91 * 10) / 10;
-  return base; // police normale par défaut
+  if (score >= 32) return Math.round(base * 0.88 * 10) / 10;
+  if (score >= 24) return Math.round(base * 0.94 * 10) / 10;
+  return base;
 }
 
 /**
- * Espacement — GRAND quand peu de contenu, normal quand beaucoup.
- * C'est ça qui remplit la page.
+ * Espacement — valeurs de base plus grandes, encore plus grand quand peu de contenu.
  */
 export function getSpacing(base: number, score: number): number {
-  if (score <= 6)  return Math.round(base * 1.8 * 10) / 10;
-  if (score <= 10) return Math.round(base * 1.5 * 10) / 10;
-  if (score <= 16) return Math.round(base * 1.2 * 10) / 10;
-  if (score >= 30) return Math.round(base * 0.85 * 10) / 10;
-  return base;
+  if (score <= 4)  return Math.round(base * 3.2 * 10) / 10;
+  if (score <= 8)  return Math.round(base * 2.6 * 10) / 10;
+  if (score <= 12) return Math.round(base * 2.0 * 10) / 10;
+  if (score <= 18) return Math.round(base * 1.5 * 10) / 10;
+  if (score >= 32) return Math.round(base * 0.85 * 10) / 10;
+  return Math.round(base * 1.15 * 10) / 10; // légèrement plus grand par défaut
 }
