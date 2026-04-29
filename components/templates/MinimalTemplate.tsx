@@ -18,7 +18,7 @@ export default function MinimalTemplate({ data }: { data: ResumeData }) {
     title: { fontSize: f(12), color: "#888", letterSpacing: 1, marginBottom: s(7) },
     contact: { flexDirection: "row", gap: 16, fontSize: f(10), color: "#aaa" },
     divider: { borderBottom: "1px solid #eee", marginBottom: s(18) },
-    section: { marginBottom: s(22) },
+    section: { marginBottom: s(14) },
     sectionTitle: { fontSize: f(10), fontFamily: "Helvetica-Bold", color: "#aaa", textTransform: "uppercase", letterSpacing: 2, marginBottom: s(12) },
     row: { flexDirection: "row", justifyContent: "space-between", marginBottom: 4 },
     bold: { fontFamily: "Helvetica-Bold", fontSize: f(11) },

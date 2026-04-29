@@ -17,7 +17,7 @@ export default function ClassicTemplate({ data }: { data: ResumeData }) {
     name: { fontSize: f(24), fontFamily: "Helvetica-Bold", marginBottom: 3 },
     title: { fontSize: f(13), color: "#555", marginBottom: 5 },
     contact: { flexDirection: "row", gap: 12, fontSize: f(10), color: "#555", flexWrap: "wrap" },
-    section: { marginTop: s(24) },
+    section: { marginTop: s(16) },
     sectionTitle: { fontSize: f(11), fontFamily: "Helvetica-Bold", borderBottom: "1px solid #222", paddingBottom: 3, marginBottom: s(12), textTransform: "uppercase", letterSpacing: 1 },
     row: { flexDirection: "row", justifyContent: "space-between", marginBottom: 4 },
     bold: { fontFamily: "Helvetica-Bold", fontSize: f(11) },
