@@ -1,7 +1,7 @@
 "use client";
 import { Document, Page, Text, View, StyleSheet, Image } from "@react-pdf/renderer";
 import { ResumeData } from "@/types/resume";
-import { getFontScale, fs } from "@/lib/pdfUtils";
+import { getContentScore, getFontSize, getSpacing } from "@/lib/pdfUtils";
 
 const GREEN = "#00d4aa";
 const DARK = "#0d1117";
@@ -11,43 +11,45 @@ const MUTED = "#8b949e";
 
 export default function TechTemplate({ data }: { data: ResumeData }) {
   const { personalInfo: p, summary, experiences, education, skills, languages, interests } = data;
-  const sc = getFontScale(data);
-
-  const styles = StyleSheet.create({
-    page: { backgroundColor: DARK, fontFamily: "Helvetica", fontSize: fs(10, sc), color: "#e6edf3", padding: fs(28, sc), display: "flex", flexDirection: "column", minHeight: "100%" },
-    header: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", marginBottom: fs(16, sc), paddingBottom: fs(14, sc), borderBottom: `1px solid ${BORDER}` },
-    headerLeft: { flex: 1 },
-    photo: { width: fs(56, sc), height: fs(56, sc), borderRadius: fs(28, sc), objectFit: "cover", borderWidth: 2, borderColor: GREEN, marginBottom: fs(6, sc) },
-    name: { fontSize: fs(22, sc), fontFamily: "Helvetica-Bold", color: "#e6edf3", marginBottom: 3 },
-    titleText: { fontSize: fs(10, sc), color: GREEN, fontFamily: "Helvetica-Bold", marginBottom: fs(7, sc) },
-    contactGrid: { flexDirection: "row", flexWrap: "wrap", gap: fs(6, sc) },
-    contactChip: { backgroundColor: CARD, borderWidth: 1, borderColor: BORDER, paddingHorizontal: fs(6, sc), paddingVertical: 2, borderRadius: 4, fontSize: fs(7.5, sc), color: MUTED },
-    body: { flex: 1, flexDirection: "row", gap: fs(14, sc) },
-    mainCol: { flex: 2 },
-    sideCol: { flex: 1 },
-    card: { backgroundColor: CARD, borderWidth: 1, borderColor: BORDER, borderRadius: 5, padding: fs(10, sc), marginBottom: fs(10, sc) },
-    sectionTitle: { fontSize: fs(8, sc), fontFamily: "Helvetica-Bold", color: GREEN, textTransform: "uppercase", letterSpacing: 2, marginBottom: fs(7, sc) },
-    entryRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 1 },
-    bold: { fontFamily: "Helvetica-Bold", color: "#e6edf3", fontSize: fs(10, sc) },
-    sub: { fontSize: fs(8.5, sc), color: MUTED, marginBottom: 2 },
-    description: { fontSize: fs(8.5, sc), color: MUTED, lineHeight: 1.5, marginTop: 3 },
-    entry: { marginBottom: fs(8, sc), paddingBottom: fs(8, sc), borderBottom: `1px solid ${BORDER}` },
-    entryLast: { marginBottom: 0, paddingBottom: 0 },
-    tagGreen: { backgroundColor: "#0d2818", borderWidth: 1, borderColor: "#166534", paddingHorizontal: fs(5, sc), paddingVertical: 2, borderRadius: 3, fontSize: fs(7.5, sc), color: GREEN, marginBottom: 3, marginRight: 3 },
-    tagsRow: { flexDirection: "row", flexWrap: "wrap" },
-    progressRow: { marginBottom: fs(5, sc) },
-    progressLabel: { flexDirection: "row", justifyContent: "space-between", marginBottom: 2 },
-    progressName: { fontSize: fs(8.5, sc), color: "#e6edf3" },
-    progressLevel: { fontSize: fs(7.5, sc), color: GREEN },
-    progressBg: { height: 3, backgroundColor: BORDER, borderRadius: 2 },
-    progressFill: { height: 3, backgroundColor: GREEN, borderRadius: 2 },
-    langRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: fs(4, sc) },
-    langName: { fontSize: fs(8.5, sc), color: "#e6edf3" },
-    langLevel: { fontSize: fs(7.5, sc), color: GREEN, fontFamily: "Helvetica-Bold" },
-    summaryText: { fontSize: fs(8.5, sc), color: MUTED, lineHeight: 1.6 },
-  });
+  const score = getContentScore(data);
+  const f = (b: number) => getFontSize(b, score);
+  const s = (b: number) => getSpacing(b, score);
 
   const levelToPercent = { débutant: "33%", intermédiaire: "66%", expert: "100%" };
+
+  const styles = StyleSheet.create({
+    page: { backgroundColor: DARK, fontFamily: "Helvetica", fontSize: f(10), color: "#e6edf3", padding: 32 },
+    header: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", marginBottom: s(18), paddingBottom: s(14), borderBottom: `1px solid ${BORDER}` },
+    headerLeft: { flex: 1 },
+    photo: { width: 60, height: 60, borderRadius: 30, objectFit: "cover", borderWidth: 2, borderColor: GREEN, marginBottom: s(6) },
+    name: { fontSize: f(24), fontFamily: "Helvetica-Bold", color: "#e6edf3", marginBottom: 3 },
+    titleText: { fontSize: f(11), color: GREEN, fontFamily: "Helvetica-Bold", marginBottom: s(7) },
+    contactGrid: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
+    contactChip: { backgroundColor: CARD, borderWidth: 1, borderColor: BORDER, paddingHorizontal: 7, paddingVertical: 2, borderRadius: 4, fontSize: f(8), color: MUTED },
+    grid: { flexDirection: "row", gap: s(14) },
+    mainCol: { flex: 2 },
+    sideCol: { flex: 1 },
+    card: { backgroundColor: CARD, borderWidth: 1, borderColor: BORDER, borderRadius: 6, padding: s(12), marginBottom: s(12) },
+    sectionTitle: { fontSize: f(9), fontFamily: "Helvetica-Bold", color: GREEN, textTransform: "uppercase", letterSpacing: 2, marginBottom: s(8) },
+    entryRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 1 },
+    bold: { fontFamily: "Helvetica-Bold", color: "#e6edf3", fontSize: f(10) },
+    sub: { fontSize: f(9), color: MUTED, marginBottom: 2 },
+    description: { fontSize: f(9), color: MUTED, lineHeight: 1.5, marginTop: 3 },
+    entry: { marginBottom: s(9), paddingBottom: s(9), borderBottom: `1px solid ${BORDER}` },
+    entryLast: { marginBottom: 0, paddingBottom: 0 },
+    tagGreen: { backgroundColor: "#0d2818", borderWidth: 1, borderColor: "#166534", paddingHorizontal: 6, paddingVertical: 2, borderRadius: 3, fontSize: f(8), color: GREEN, marginBottom: 4, marginRight: 4 },
+    tagsRow: { flexDirection: "row", flexWrap: "wrap" },
+    progressRow: { marginBottom: s(6) },
+    progressLabel: { flexDirection: "row", justifyContent: "space-between", marginBottom: 2 },
+    progressName: { fontSize: f(9), color: "#e6edf3" },
+    progressLevel: { fontSize: f(8), color: GREEN },
+    progressBg: { height: 3, backgroundColor: BORDER, borderRadius: 2 },
+    progressFill: { height: 3, backgroundColor: GREEN, borderRadius: 2 },
+    langRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: s(5) },
+    langName: { fontSize: f(9), color: "#e6edf3" },
+    langLevel: { fontSize: f(8), color: GREEN, fontFamily: "Helvetica-Bold" },
+    summaryText: { fontSize: f(9), color: MUTED, lineHeight: 1.6 },
+  });
 
   return (
     <Document>
@@ -67,7 +69,7 @@ export default function TechTemplate({ data }: { data: ResumeData }) {
           </View>
         </View>
 
-        <View style={styles.body}>
+        <View style={styles.grid}>
           <View style={styles.mainCol}>
             {summary.text && (
               <View style={styles.card}>
@@ -110,14 +112,14 @@ export default function TechTemplate({ data }: { data: ResumeData }) {
             {skills.length > 0 && (
               <View style={styles.card}>
                 <Text style={styles.sectionTitle}>// Stack</Text>
-                {skills.map((s) => (
-                  <View key={s.id} style={styles.progressRow}>
+                {skills.map((sk) => (
+                  <View key={sk.id} style={styles.progressRow}>
                     <View style={styles.progressLabel}>
-                      <Text style={styles.progressName}>{s.name}</Text>
-                      <Text style={styles.progressLevel}>{s.level}</Text>
+                      <Text style={styles.progressName}>{sk.name}</Text>
+                      <Text style={styles.progressLevel}>{sk.level}</Text>
                     </View>
                     <View style={styles.progressBg}>
-                      <View style={[styles.progressFill, { width: levelToPercent[s.level] }]} />
+                      <View style={[styles.progressFill, { width: levelToPercent[sk.level] }]} />
                     </View>
                   </View>
                 ))}

@@ -1,40 +1,41 @@
 import { ResumeData } from "@/types/resume";
 
 /**
- * Calcule un facteur d'échelle selon la densité du contenu.
- * Retourne une valeur entre 0.78 (beaucoup de contenu) et 1.0 (peu de contenu).
+ * Calcule la densité du contenu.
+ * Retourne un score entre 0 (vide) et ~40+ (très rempli).
  */
-export function getFontScale(data: ResumeData): number {
+export function getContentScore(data: ResumeData): number {
   let score = 0;
-
-  // Expériences
-  score += data.experiences.length * 3;
+  score += data.experiences.length * 4;
   data.experiences.forEach((e) => {
-    if (e.description) score += Math.ceil(e.description.length / 80);
+    if (e.description) score += Math.ceil(e.description.length / 60);
   });
-
-  // Formation
   score += data.education.length * 2;
-
-  // Compétences & langues
-  score += Math.ceil(data.skills.length / 3);
+  score += Math.ceil(data.skills.length / 4);
   score += Math.ceil(data.languages.length / 3);
-
-  // Résumé
-  if (data.summary.text) score += Math.ceil(data.summary.text.length / 100);
-
-  // Intérêts
-  score += Math.ceil(data.interests.length / 4);
-
-  // Seuils : < 10 = normal, 10-18 = légèrement réduit, > 18 = réduit
-  if (score <= 8)  return 1.0;
-  if (score <= 14) return 0.93;
-  if (score <= 20) return 0.87;
-  if (score <= 26) return 0.82;
-  return 0.78;
+  if (data.summary.text) score += Math.ceil(data.summary.text.length / 80);
+  score += Math.ceil(data.interests.length / 5);
+  return score;
 }
 
-/** Applique le scale à une taille de base */
-export function fs(base: number, scale: number): number {
-  return Math.round(base * scale * 10) / 10;
+/**
+ * Taille de police de base — réduit seulement si vraiment beaucoup de contenu.
+ * Peu de contenu = police normale (10), beaucoup = légèrement réduit.
+ */
+export function getFontSize(base: number, score: number): number {
+  if (score >= 30) return Math.round(base * 0.85 * 10) / 10;
+  if (score >= 22) return Math.round(base * 0.91 * 10) / 10;
+  return base; // police normale par défaut
+}
+
+/**
+ * Espacement — GRAND quand peu de contenu, normal quand beaucoup.
+ * C'est ça qui remplit la page.
+ */
+export function getSpacing(base: number, score: number): number {
+  if (score <= 6)  return Math.round(base * 1.8 * 10) / 10;
+  if (score <= 10) return Math.round(base * 1.5 * 10) / 10;
+  if (score <= 16) return Math.round(base * 1.2 * 10) / 10;
+  if (score >= 30) return Math.round(base * 0.85 * 10) / 10;
+  return base;
 }
